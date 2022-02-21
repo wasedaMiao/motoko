@@ -1,0 +1,92 @@
+longxia@LAPTOP-884HKJO5:~$ ls
+bin  mysite
+longxia@LAPTOP-884HKJO5:~$ cd mysite/
+longxia@LAPTOP-884HKJO5:~/mysite$ ls
+README.md  dfx.json  src
+longxia@LAPTOP-884HKJO5:~/mysite$ cat dfx.json
+{
+  "version": 1,
+  "dfx": "0.8.4",
+  "canisters": {
+    "mysite": {
+      "type": "motoko",
+      "main": "src/mysite/main.mo"
+    },
+    "mysite_assets": {
+      "type": "assets",
+      "source": [
+        "src/mysite_assets/assets"
+      ],
+      "dependencies": [
+        "mysite"
+      ]
+    }
+  },
+  "defaults": {
+    "build": {
+      "packtool": "",
+      "args": ""
+    }
+  },
+  "networks": {
+    "local": {
+      "bind": "127.0.0.1:8000",
+      "type": "ephemeral"
+    }
+  }
+}
+longxia@LAPTOP-884HKJO5:~/mysite$ ls
+README.md  dfx.json  src
+longxia@LAPTOP-884HKJO5:~/mysite$ ls -R src/
+src/:
+mysite  mysite_assets
+
+src/mysite:
+main.mo
+
+src/mysite_assets:
+assets
+
+src/mysite_assets/assets:
+sample-asset.txt
+longxia@LAPTOP-884HKJO5:~/mysite$ echo '<html><body><h1>Hello World!</h1></body></html>' > src/mysite_assets/assets/index.html
+longxia@LAPTOP-884HKJO5:~/mysite$ cat src/mysite_assets/assets/index.html
+<html><body><h1>Hello World!</h1></body></html>
+longxia@LAPTOP-884HKJO5:~/mysite$ dfx start
+Starting webserver for /_/
+binding to: 127.0.0.1:37221
+Feb 21 03:48:18.199 INFO ic-starter. Configuration: ValidatedConfig { replica_path: Some("/home/longxia/.cache/dfinity/versions/0.8.4/replica"), replica_version: "0.8.0", log_level: Warning, cargo_bin: "cargo", cargo_opts: "", state_dir: "/home/longxia/mysite/.dfx/state/replicated_state", http_listen_addr: 127.0.0.1:0, http_port_file: Some("/home/longxia/mysite/.dfx/replica-configuration/replica-1.port"), metrics_addr: None, provisional_whitelist: Some(All), artifact_pool_dir: "/home/longxia/mysite/.dfx/state/replicated_state/node-100/ic_consensus_pool", crypto_root: "/home/longxia/mysite/.dfx/state/replicated_state/node-100/crypto", state_manager_root: "/home/longxia/mysite/.dfx/state/replicated_state/node-100/state", registry_local_store_path: "/home/longxia/mysite/.dfx/state/replicated_state/ic_registry_local_store", unit_delay: None, initial_notary_delay: Some(600ms), detect_consensus_starvation: None, consensus_pool_backend: Some("rocksdb"), state_dir_holder: None }, Application: starter
+Feb 21 03:48:18.199 INFO Initialize replica configuration "/home/longxia/mysite/.dfx/state/replicated_state/ic.json5", Application: starter
+Feb 21 03:48:19.352 INFO Executing "/home/longxia/.cache/dfinity/versions/0.8.4/replica" "--replica-version" "0.8.0" "--config-file" "/home/longxia/mysite/.dfx/state/replicated_state/ic.json5", Application: starterFeb 21 03:48:21.691 WARN s:43vuk-35l7z-hyde3-fdshv-c4qei-pnfoi-nuh55-ljgeu-zabqg-vygqx-vqe/n:hj2cm-s5f6n-fyypi-nlyvi-ehj4l-li35n-joewz-3slst-a646h-x5blu-7qe/ic_p2p/download_management PeerManagerImpl::new(): relay_config = None
+version: 0.7.0
+ Feb 21 11:48:21.706 INFO Log Level: INFO
+ Feb 21 11:48:21.706 INFO Starting server. Listening on http://127.0.0.1:8000/
+Feb 21 03:49:24.874 WARN s:43vuk-35l7z-hyde3-fdshv-c4qei-pnfoi-nuh55-ljgeu-zabqg-vygqx-vqe/n:hj2cm-s5f6n-fyypi-nlyvi-ehj4l-li35n-joewz-3slst-a646h-x5blu-7qe/ic_state_layout/utils StateManager runs on a filesystem not supporting reflinks (attempted to reflink /home/longxia/mysite/.dfx/state/replicated_state/node-100/state/tip/system_metadata.pbuf => /home/longxia/mysite/.dfx/state/replicated_state/node-100/state/fs_tmp/scratchpad_0000000000000064/system_metadata.pbuf), running big canisters can be very slow
+
+longxia@LAPTOP-884HKJO5:~$ cd mysite/
+longxia@LAPTOP-884HKJO5:~/mysite$ dfx deploy
+Creating the "default" identity.
+  - generating new key at /home/longxia/.config/dfx/identity/default/identity.pem
+Created the "default" identity.
+Creating a wallet canister on the local network.
+The wallet canister on the "local" network for user "default" is "rwlgt-iiaaa-aaaaa-aaaaa-cai"
+Deploying all canisters.
+Creating canisters...
+Creating canister "mysite"...
+"mysite" canister created with canister id: "rrkah-fqaaa-aaaaa-aaaaq-cai"
+Creating canister "mysite_assets"...
+"mysite_assets" canister created with canister id: "ryjl3-tyaaa-aaaaa-aaaba-cai"
+Building canisters...
+Installing canisters...
+Creating UI canister on the local network.
+The UI canister on the "local" network is "r7inp-6aaaa-aaaaa-aaabq-cai"
+Installing code for canister mysite, with canister_id rrkah-fqaaa-aaaaa-aaaaq-cai
+Installing code for canister mysite_assets, with canister_id ryjl3-tyaaa-aaaaa-aaaba-cai
+Authorizing our identity (default) to the asset canister...
+Uploading assets to asset canister...
+Starting batch.
+Staging contents of new and changed assets:
+  /sample-asset.txt 1/1 (24 bytes)
+  /index.html 1/1 (48 bytes)
+Committing batch.
+Deployed canisters.
